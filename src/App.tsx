@@ -14,14 +14,29 @@ function createBoard(
   );
 }
 
+function calculateRows(cols: number) {
+  const screenWidth = window.innerWidth;
+  const screenHeight = window.innerHeight;
+
+  const cellSize = screenWidth / cols;
+  const rows = Math.floor(screenHeight / cellSize); // Ensure it fits
+
+  return rows;
+}
+
 function App() {
-  const rows = 30;
-  const cols = 50;
+  let cols = 50;
+  if (window.innerWidth < 840) {
+    cols = 15;
+  } else if (window.innerWidth < 1252) {
+    cols = 25;
+  }
+  const rows = calculateRows(cols);
+
   const [gamePaused, setGamePaused] = useState(true);
   const [board, setBoard] = useState<number[][]>(
     createBoard(rows, cols, false),
   );
-  console.log(board);
 
   useEffect(() => {
     if (gamePaused) return;
